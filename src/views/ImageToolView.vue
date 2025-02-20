@@ -1,6 +1,6 @@
 <script setup lang="ts" name="ImageToolView">
 import { reactive, ref, watch } from 'vue';
-import { useMessage, NInputGroup, NInputGroupLabel, NColorPicker, NInput, NInputNumber, NSelect, NCheckbox,NButton } from 'naive-ui';
+import { useMessage, NInputGroup, NInputGroupLabel, NColorPicker, NInput, NInputNumber, NSelect, NCheckbox, NButton } from 'naive-ui';
 import { localCache } from '../utils/strange';
 
 let url = ref<string>();
@@ -47,10 +47,8 @@ const drawText = (ctx: any, words: string[], textFontSize: number) => {
 
     ctx.fillText(words.join(''), textFontSize / 2, canvasInfo.height / 2);
   } else {
-    console.log(words);
     let rowLength = 1;
     while (textFontSize * rowLength + textFontSize / 2 < canvasInfo.width) {
-      console.log(1);
       rowLength++;
     }
     const rows = Math.ceil(words.length / (rowLength - 1));
@@ -73,9 +71,9 @@ const renderImage = () => {
   if (canvasInfo.unit === 'kb') {
     targetSize = canvasInfo.targetSize * 1024;
   } else if (canvasInfo.unit === 'mb') {
-    targetSize = canvasInfo.targetSize * 1024 ^ 2;
+    targetSize = canvasInfo.targetSize * 1024 ** 2;
   } else if (canvasInfo.unit === 'gb') {
-    targetSize = canvasInfo.targetSize * 1024 ^ 3;
+    targetSize = canvasInfo.targetSize * 1024 ** 3;
   }
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
@@ -83,15 +81,14 @@ const renderImage = () => {
   if (canvasInfo.fontSize === 0) {
     canvasInfo.fontSize = canvasInfo.width / 20;
   }
+  
   ctx.fillStyle = canvasInfo.innerColor;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   if (canvasInfo.innerColor.startsWith('#FFFFF')) {
     ctx.fillStyle = '#000000FF';
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
   }
-  // ctx.fillStyle = invertHexColor(canvasInfo.innerColor);
-
-  ctx.fillStyle = (parseInt(canvasInfo.innerColor.substring(1,7), 16) > 0xffffff/2) ? '#000000FF':'#FFFFFFFF';
+  ctx.fillStyle = (parseInt(canvasInfo.innerColor.substring(1, 7), 16) > 0xffffff / 2) ? '#000000FF' : '#FFFFFFFF';
   const text = canvasInfo.innerText ? canvasInfo.innerText : `${canvasInfo.width + ' * ' + canvasInfo.height}`;
   drawText(ctx, text.split(''), canvasInfo.fontSize);
   canvas.toBlob(blob => {
@@ -100,7 +97,7 @@ const renderImage = () => {
     }
     const { size } = blob;
     const remaining = targetSize - size;
-    if (targetSize && remaining < 0) {
+    if (targetSize > 0 && remaining < 0) {
       message.error('指定图片内存小于当前图片尺寸最小内存，指定内存未生效');
       return;
     }
@@ -133,20 +130,15 @@ const downloadImg = () => {
   a.click();
 }
 const remParam = () => {
-  console.log(remember.value);
   if (remember.value) {
-    console.log('保存');
     localCache.setCache('canvasInfo', canvasInfo);
   } else {
-    console.log('删除');
     localCache.removeCache('canvasInfo');
   }
-  // console.log(localCache.getCache('canvasInfo'));
 }
 
 
 watch(canvasInfo, (newVal, oldVal) => {
-  console.debug(oldVal);
   if (remember.value) {
     localCache.setCache('canvasInfo', newVal);
   }
