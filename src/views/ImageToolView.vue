@@ -81,7 +81,7 @@ const renderImage = () => {
   if (canvasInfo.fontSize === 0) {
     canvasInfo.fontSize = canvasInfo.width / 20;
   }
-  
+
   ctx.fillStyle = canvasInfo.innerColor;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   if (canvasInfo.innerColor.startsWith('#FFFFF')) {
@@ -137,8 +137,8 @@ const remParam = () => {
   }
 }
 
-
-watch(canvasInfo, (newVal, oldVal) => {
+//传参可以是(newVal, oldVal)，但是此处用不到oldVal
+watch(canvasInfo, (newVal) => {
   if (remember.value) {
     localCache.setCache('canvasInfo', newVal);
   }

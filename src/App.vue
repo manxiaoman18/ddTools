@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Header from './components/Header.vue';
 import { NConfigProvider, NMessageProvider, NNotificationProvider } from 'naive-ui';
+const buildTime = import.meta.env.BUILD_TIME;
 </script>
 
 <template>
@@ -11,7 +12,7 @@ import { NConfigProvider, NMessageProvider, NNotificationProvider } from 'naive-
         <div class="content">
           <RouterView />
         </div>
-        <div class="footer">最近更新于 2025 年 01 月 21 日</div>
+        <div class="footer">最近更新: {{ buildTime }}</div>
       </n-message-provider>
     </n-notification-provider>
   </n-config-provider>

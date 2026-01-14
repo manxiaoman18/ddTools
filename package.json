@@ -9,8 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "crypto-js": "^4.2.0",
     "dayjs": "^1.11.13",
     "highlight.js": "^11.10.0",
+    "marked": "^15.0.8",
     "sql-formatter": "^15.4.6",
     "v-code-diff": "^1.13.1",
     "vfonts": "^0.0.3",
