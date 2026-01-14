@@ -10,14 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install pnpm
+        run: npm install -g pnpm@latest
+
       - name: Setup Node.js with pnpm cache
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'pnpm'
-
-      - name: Install pnpm
-        run: npm install -g pnpm@latest
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
