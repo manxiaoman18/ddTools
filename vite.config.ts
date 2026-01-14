@@ -6,10 +6,14 @@ export default defineConfig({
   plugins: [vue()],
   base: "/",
   resolve: {
-    // 关键配置在这里！
-    // 告诉 Vite 优先查找哪个字段。
-    // 默认是 ['module', 'main']，我们强制把 module 放在第一位，并排除 exports 避免冲突
-    mainFields: ['module', 'main'],
+    alias: {
+      // 这里的逻辑：
+      // 1. import.meta.url 获取当前 vite.config.ts 的文件路径
+      // 2. new URL(...).pathname 转换为系统绝对路径
+      // 3. replace(...) 去掉文件名，只保留目录
+      // 4. 拼接上 node_modules 的真实路径
+      'v-code-diff': './node_modules/v-code-diff/dist/index.es.js'
+    }
   },
   define: {
     // 注入构建时间变量（格式：YYYY-MM-DD HH:mm:ss）
