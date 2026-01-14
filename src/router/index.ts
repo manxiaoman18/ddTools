@@ -7,7 +7,6 @@ import DateToolView from '../views/DateToolView.vue'
 import WorkTimeCalcView from '../views/WorkTimeCalcView.vue'
 import CodeDiffToolView from '../views/CodeDiffToolView.vue'
 import RevertDataView from '../views/RevertDataView.vue'
-import XunFeiAIView from '../views/XunFeiAIView.vue'
 
 const routes = [
   { path: '/', component: HomeView },
@@ -17,7 +16,6 @@ const routes = [
   { path: '/workTimeCalcCode', component: WorkTimeCalcView },
   { path: '/codeDiffTool', component: CodeDiffToolView },
   { path: '/revertData', component: RevertDataView },
-  { path: '/xunFeiAI', component: XunFeiAIView },
 ]
 
 const router = createRouter({
