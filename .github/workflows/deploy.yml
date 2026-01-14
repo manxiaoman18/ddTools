@@ -20,7 +20,7 @@ jobs:
           cache: 'pnpm'
 
       - name: approve install v-code-diff
-        uses: pnpm approve-builds v-code-diff
+        run: pnpm approve-builds v-code-diff
         
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
