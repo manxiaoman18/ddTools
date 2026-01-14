@@ -18,7 +18,9 @@ jobs:
         with:
           node-version: '22'
           cache: 'pnpm'
-
+      - name: approve install v-code-diff
+        use: pnpm approve-builds v-code-diff
+        
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
