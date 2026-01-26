@@ -33,7 +33,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # 推送到主页仓库
-          # external_repository: manxiaoman18/manxiaoman18.github.io
           publish_dir: ./dist
-          # destination_dir: ./ # 推送到根目录
           cname: manxiaoman18.github.io # 可选：自定义域名

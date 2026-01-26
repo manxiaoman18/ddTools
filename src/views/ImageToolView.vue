@@ -39,24 +39,72 @@ const drawText = (ctx: any, words: string[], textFontSize: number) => {
   if (words.length === 0) {
     words = ['暂无文字'];
   }
+
+  const { width, height } = canvasInfo; // 保持使用外部变量 canvasInfo
+  
   ctx.font = `${textFontSize}px Arial`;
-  if (textFontSize >= canvasInfo.width) {
+
+  // 极端情况校验
+  if (textFontSize >= width) {
     message.error('图片宽度过窄，无法写入文字');
     return;
-  } else if (textFontSize * words.length + textFontSize / 2 <= canvasInfo.width) {
+  }
 
-    ctx.fillText(words.join(''), textFontSize / 2, canvasInfo.height / 2);
-  } else {
-    let rowLength = 1;
-    while (textFontSize * rowLength + textFontSize / 2 < canvasInfo.width) {
-      rowLength++;
-    }
-    const rows = Math.ceil(words.length / (rowLength - 1));
-    for (let i = 0; i < rows; i++) {
-      ctx.fillText(words.slice(i * (rowLength - 1), (i + 1) * (rowLength - 1)).join(''), textFontSize / 2, textFontSize * (1 + i));
+  const content = words.join('');
+  const padding = textFontSize / 2; // 左右边距
+  const maxWidth = width - padding; // 最大可用宽度 (保留右侧一点空隙更美观)
+
+  // 1. 测量整行文字宽度
+  const textMetrics = ctx.measureText(content);
+  const textWidth = textMetrics.width;
+
+  // 2. 单行逻辑：如果放得下，直接绘制并居中
+  if (textWidth <= maxWidth) {
+    ctx.textBaseline = 'middle'; // 设置垂直对齐为中间
+    ctx.textAlign = 'center'; 
+    ctx.fillText(content, width / 2, height / 2);
+    return;
+  }
+
+  // 3. 多行逻辑：自动换行
+  ctx.textAlign = 'left'; 
+  ctx.textBaseline = 'top'; // 多行计算时，使用 top 对齐更方便计算 Y 轴偏移
+  
+  const lines: string[] = [];
+  let currentLine = '';
+
+  // 逐字计算宽度进行换行
+  for (let i = 0; i < content.length; i++) {
+    const char = content[i];
+    const testLine = currentLine + char;
+    const testWidth = ctx.measureText(testLine).width;
+
+    if (testWidth > maxWidth && i > 0) {
+      lines.push(currentLine);
+      currentLine = char;
+    } else {
+      currentLine = testLine;
     }
   }
-}
+  lines.push(currentLine);
+
+  // 4. 计算垂直居中的起始 Y 坐标
+  const lineHeight = textFontSize * 1.2; // 行高设为字号的 1.2 倍，防止拥挤
+  const totalTextHeight = lines.length * lineHeight;
+  
+  let startY = (height - totalTextHeight) / 2;
+
+  // 如果文字总高度超过了画布高度，则从顶部开始画，防止文字被截断
+  if (totalTextHeight > height) {
+    startY = padding;
+  }
+
+  // 5. 循环绘制每一行
+  lines.forEach((line) => {
+    ctx.fillText(line, padding, startY);
+    startY += lineHeight;
+  });
+};
 
 
 const renderImage = () => {
