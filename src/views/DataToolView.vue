@@ -97,7 +97,7 @@ const replacer = (key: any, value: any) => {
                 <n-button type="primary" @click="execute" style="margin-top: 1em;">转换</n-button>
                 <n-button type="default" @click="getJsonList" style="margin-top: 1em;">生成json</n-button>
                 <n-button text tag="a" size="tiny" style="margin-top: 1em;" target="_blank" type="primary"
-                    href="/#/revertData">反向解析</n-button>
+                    href="./#/revertData">反向解析</n-button>
                 <span v-if="executeType === 1" @update:value="sqlString" style="margin-top: 1em;">{{ sqlString }}</span>
             </div>
         </n-scrollbar>

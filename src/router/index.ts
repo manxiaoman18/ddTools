@@ -7,6 +7,7 @@ import DateToolView from '../views/DateToolView.vue'
 import WorkTimeCalcView from '../views/WorkTimeCalcView.vue'
 import CodeDiffToolView from '../views/CodeDiffToolView.vue'
 import RevertDataView from '../views/RevertDataView.vue'
+import JsonTemplateEditor from '../views/JsonTemplateEditorView.vue'
 
 const routes = [
   { path: '/', component: HomeView },
@@ -16,6 +17,7 @@ const routes = [
   { path: '/workTimeCalcCode', component: WorkTimeCalcView },
   { path: '/codeDiffTool', component: CodeDiffToolView },
   { path: '/revertData', component: RevertDataView },
+  { path: '/jsonTemplateEditor', component: JsonTemplateEditor },
 ]
 
 const router = createRouter({

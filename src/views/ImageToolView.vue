@@ -173,7 +173,8 @@ const downloadImg = () => {
   const a = document.createElement('a');
   if (!url.value) return;
   a.href = url.value;
-  a.download = 'image.jpg';
+  canvasInfo.innerText.trim() + '.jpg'
+  a.download = canvasInfo.innerText.trim() + '.jpg';
   a.click();
 }
 const remParam = () => {
