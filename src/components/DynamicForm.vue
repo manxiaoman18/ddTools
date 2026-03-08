@@ -100,13 +100,6 @@ const updateOption = (jsonObj: JsonListItem) => {
     }
 }
 
-watch(jsonList, (newJsonList) => {
-    emit('updatejson', newJsonList);
-}, { deep: true });
-
-const emit = defineEmits<{
-    (e: 'updatejson', jsonList: JsonListItem[]): void;
-}>();
 const railStyle = ({ focused, checked }: { focused: boolean; checked: boolean }) => {
     const style: CSSProperties = {}
     if (checked) {
