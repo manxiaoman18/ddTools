@@ -81,7 +81,6 @@
 import { ref, reactive } from 'vue'
 import { NCard, NFormItem, NInput, NButton, NSpace, NTag, NEmpty, useMessage, NTable } from 'naive-ui'
 import CryptoJS from 'crypto-js'
-
 // 消息提示
 const message = useMessage()
 
@@ -248,6 +247,7 @@ const executeFunction = (funcName: string, args: string[]): string => {
       }
       
       if (formatMap.hasOwnProperty(format)) {
+        console.log(formatMap[format]);
         return formatMap[format]
       }
       
@@ -258,9 +258,10 @@ const executeFunction = (funcName: string, args: string[]): string => {
         .replace('dd', day)
         .replace('HH', hours)
         .replace('mm', minutes)
-        .replace('ss', seconds)
+        .replace('ss', seconds);
     }
     case '_timeOffset': {
+      console.log('into _timeOffset');
       const baseTime = args[0] ? parseInt(args[0]) : Date.now()
       const offset = args[1] ? parseInt(args[1]) : 0
       const unit = args[2] || 's'
@@ -279,7 +280,7 @@ const executeFunction = (funcName: string, args: string[]): string => {
         case 'd': offsetTime = offset * 24 * 60 * 60 * 1000; break
         default: return '[不支持的单位]'
       }
-
+      console.log('unit pass');
       const targetTime = baseTime + offsetTime
 
       if (outputFormat === 'timestamp') {
@@ -295,21 +296,23 @@ const executeFunction = (funcName: string, args: string[]): string => {
       const minutes = String(date.getMinutes()).padStart(2, '0')
       const seconds = String(date.getSeconds()).padStart(2, '0')
 
-      if (outputFormat === 'yyyy-MM-dd HH:mm:ss') {
-          return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
-      } else if (outputFormat === 'yyyy/MM/dd') {
-          return `${year}/${month}/${day}`
-      } else if (outputFormat === 'yyyyMMdd') {
-          return `${year}${month}${day}`
-      }
-
-      return outputFormat
+      // if (outputFormat === 'yyyy-MM-dd HH:mm:ss') {
+      //     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+      // } else if (outputFormat === 'yyyy/MM/dd') {
+      //     return `${year}/${month}/${day}`
+      // } else if (outputFormat === 'yyyyMMdd') {
+      //     return `${year}${month}${day}`
+      // }
+      console.log('123',outputFormat);
+      const t =  outputFormat
           .replace('yyyy', String(year))
           .replace('MM', month)
           .replace('dd', day)
           .replace('HH', hours)
           .replace('mm', minutes)
           .replace('ss', seconds)
+      console.log('111',t);
+      return t;
     }
     default:
       return `[函数${funcName}未实现]`

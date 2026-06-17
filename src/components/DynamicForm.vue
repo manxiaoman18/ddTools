@@ -1,5 +1,5 @@
 <script setup lang="ts" name="DynamicForm">
-import { ref, reactive } from 'vue';
+import { ref, reactive, watch } from 'vue';
 import type { CSSProperties } from 'vue'
 import { JsonListItem } from '../entitys/JsonListItem'
 import { useMessage, NTooltip, NInput, NSwitch, NRadio, NRadioGroup, NDynamicInput, NSpace, NCheckbox, NCheckboxGroup, NDatePicker } from 'naive-ui';
@@ -99,6 +99,14 @@ const updateOption = (jsonObj: JsonListItem) => {
         })
     }
 }
+
+watch(jsonList, (newJsonList) => {
+    emit('updatejson', newJsonList);
+}, { deep: true });
+
+const emit = defineEmits<{
+    (e: 'updatejson', jsonList: JsonListItem[]): void;
+}>();
 
 const railStyle = ({ focused, checked }: { focused: boolean; checked: boolean }) => {
     const style: CSSProperties = {}
