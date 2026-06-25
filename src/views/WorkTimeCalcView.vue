@@ -297,9 +297,9 @@ const handleUpdateValue = (value: string) => {
         <div class="codeDiv">
             <n-scrollbar x-scrollable>
                 <n-tabs type="line" animated justify-content="center" @update:value="handleUpdateValue" size="large">
-                    <n-tab-pane name="日均工时脚本" style="width: 50%;margin-left: 25%;" title="用来计算个人月度工时和欠缺工时"><n-code
+                    <n-tab-pane name="日均工时脚本" style="max-width: 800px; margin: 0 auto;" title="用来计算个人月度工时和欠缺工时"><n-code
                             :code="qaCode" language="javascript" word-wrap /></n-tab-pane>
-                    <n-tab-pane name="开发工时脚本" style="width: 50%;margin-left: 25%;"
+                    <n-tab-pane name="开发工时脚本" style="max-width: 800px; margin: 0 auto;"
                         title="测试同学用来计算上个月所测的需求对应开发总工时，使用前需要把代码第3行tester的值改为自己的花名拼音"><n-code :code="rdCode"
                             language="javascript" word-wrap /></n-tab-pane>
                 </n-tabs>
@@ -307,7 +307,7 @@ const handleUpdateValue = (value: string) => {
         </div>
     </n-config-provider>
     <div>
-        <n-float-button :right="300" :bottom="200" width="75" height="75" shape="circle" type="primary"
+        <n-float-button :right="24" :bottom="24" width="56" height="56" shape="circle" type="primary"
             @click="copyText">
             <n-icon size="1.5em">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32">
@@ -323,7 +323,14 @@ const handleUpdateValue = (value: string) => {
 
 <style scoped>
 .codeDiv {
-    height: 90vh;
+    height: 100%;
     width: 100%;
+    padding: 0 1rem;
+}
+
+@media (max-width: 768px) {
+    .codeDiv {
+        padding: 0 0.5rem;
+    }
 }
 </style>

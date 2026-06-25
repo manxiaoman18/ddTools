@@ -1,37 +1,28 @@
 <script setup lang="ts" name="RevertDataView">
 import DynamicForm from "../components/DynamicForm.vue";
-import { NScrollbar, NInput, NSpace, NRadioGroup, NRadio, NButton } from 'naive-ui';
+import { NScrollbar, NInput, NSpace, NRadioGroup, NRadio, NButton, useMessage } from 'naive-ui';
 import { ref } from "vue";
-import { JsonListItem } from '../entitys/JsonListItem'
+import type { JsonListItem } from '../entitys/JsonListItem'
+import { ExecuteType, executeTypeOptions, jsonReplacer } from '../utils/dataTool'
 
-const executeType = ref(1);
+const executeType = ref<ExecuteType>(ExecuteType.DbReq);
 const jsonText = ref('');
-const replacer = (key: any, value: any) => {
-    if (key === 'optionList' || key === 'optionValueType') {
-        return undefined;
-    }
-    // 如果值是 null 或者是一个空字符串，则返回 undefined，这样它就不会被包含在最终的 JSON 字符串中
-    if (value === null || value === '') {
-        return undefined;
-    }
-    // 对于其他情况，返回该值（保持不变）
-    return value;
-}
-const handleUpdateJson = (newJsonList:JsonListItem[]) => {
-    jsonText.value = JSON.stringify(newJsonList, replacer, 2);
-};
+const jsonList = ref<JsonListItem[]>([]);
+const message = useMessage();
 const DynamicFormRef = ref<InstanceType<typeof DynamicForm> | null>(null);
+
+const handleUpdateJson = (newJsonList: JsonListItem[]) => {
+    jsonText.value = JSON.stringify(newJsonList, jsonReplacer, 2);
+};
+
 const revertData = () => {
     try {
         const parsedJson = JSON.parse(jsonText.value);
-        if (DynamicFormRef.value) {
-            DynamicFormRef.value.setFormData(parsedJson, executeType.value);
-        }
+        DynamicFormRef.value?.setFormData(parsedJson);
     } catch (error) {
-        console.error("Invalid JSON", error);
+        message.error(`JSON解析失败: ${(error as Error).message}`);
     }
 }
-
 </script>
 
 <template>
@@ -42,9 +33,7 @@ const revertData = () => {
                     :autosize="{ minRows: 10, maxRows: 20 }" />
                 <n-radio-group v-model:value="executeType" name="executeTypeGroup">
                     <n-space style="margin-top: 1em;">
-                        <n-radio :value="1">dbutil请求结构体</n-radio>
-                        <n-radio :value="2">dbutil响应结构体</n-radio>
-                        <n-radio :value="3">dg请求入参</n-radio>
+                        <n-radio v-for="opt in executeTypeOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</n-radio>
                     </n-space>
                 </n-radio-group>
                 <n-button style="margin-top: 1em;" @click="revertData" type="primary">解析</n-button>
@@ -54,7 +43,8 @@ const revertData = () => {
             <div class="content middle">
                 <div>
                     <n-space vertical>
-                        <DynamicForm ref="DynamicFormRef" @updatejson="handleUpdateJson"></DynamicForm>
+                        <DynamicForm ref="DynamicFormRef" v-model="jsonList" :execute-type="executeType"
+                            @update:model-value="handleUpdateJson" />
                     </n-space>
                 </div>
             </div>
@@ -65,8 +55,7 @@ const revertData = () => {
 <style scoped>
 .container {
     height: 100%;
-    margin-left: 10%;
-    width: 80%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     overflow: auto;
@@ -79,9 +68,21 @@ const revertData = () => {
     flex: 1;
     flex-shrink: 0;
     padding: 2em;
+    min-width: 300px;
 
     &:hover {
-        background-color: #f7f5f5;
+        background-color: var(--hover-bg);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .content {
+        min-width: 100%;
+        padding: 1em;
     }
 }
 </style>

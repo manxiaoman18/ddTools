@@ -77,19 +77,33 @@ const dateDiff = (startTime: Number | string, endTime: Number | string) => {
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    padding: 1rem;
 }
 
 .row {
-    width: 50%;
+    width: 100%;
+    max-width: 800px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     padding-bottom: 1em;
-    border-bottom: 1px solid #4d4d4d;
+    border-bottom: 1px solid var(--border-color);
 }
 
 label {
     margin: 0 1em;
+}
+
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+        gap: 0.5em;
+    }
+
+    label {
+        margin: 0;
+        width: 100%;
+    }
 }
 </style>

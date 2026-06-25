@@ -246,26 +246,33 @@ watch(canvasInfo, (newVal, oldVal) => {
 
 <style scoped>
 .content {
-  margin-left: 35%;
-  align-content: center;
-  width: 30%;
-  padding: 1em;
-  height: 100%;
+    margin: 0 auto;
+    align-content: center;
+    width: 100%;
+    max-width: 500px;
+    padding: 1em;
+    height: 100%;
 }
 
 .item {
-  margin-bottom: 1em;
+    margin-bottom: 1em;
 }
 
 .canvas-container {
-  width: 100%;
-  height: 45vh;
-  overflow: hidden;
+    width: 100%;
+    height: 45vh;
+    overflow: hidden;
 }
 
 .canvas-container canvas {
-  max-width: 100%;
-  max-height: 100%;
-  transform-origin: top left;
+    max-width: 100%;
+    max-height: 100%;
+    transform-origin: top left;
+}
+
+@media (max-width: 600px) {
+    .content {
+        padding: 0.5em;
+    }
 }
 </style>

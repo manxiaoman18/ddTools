@@ -107,7 +107,7 @@ const cancelCallback = () => {
                     </n-radio-group>
                 </n-form-item>
                 <n-form-item label="折叠代码：" path="context" title="每处不同上下文超过X行没有其他不同，则折叠后续代码直至下一处不同的前X行展开">
-                    <n-input-number v-model:value="codeDiffConfig.context" placeholder="电话号码" />
+                    <n-input-number v-model:value="codeDiffConfig.context" placeholder="上下文行数" />
                 </n-form-item>
             </n-form>
         </div>
@@ -116,16 +116,22 @@ const cancelCallback = () => {
 
 <style scoped>
 .content {
-    padding-top: 1vh;
+    padding: 1vh 1rem;
 }
 
 .modal-content {
     display: flex;
     flex-direction: row;
+    gap: 1em;
 }
 
 .textspace {
-    margin: 0 1em 0 1em;
     flex: 1;
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        flex-direction: column;
+    }
 }
 </style>

@@ -418,54 +418,53 @@ const copyResult = () => {
 <style scoped>
 /* 全局容器 */
 .json-template-tool {
-  width: 98vw;
-  height: 88vh;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: #f5f7fa;
-  overflow: hidden;
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 /* 左中右布局容器：横向三等分 */
 .layout-container {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  gap: 20px;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    gap: 16px;
 }
 
 /* 每个布局项：平均分配宽度 */
 .layout-item {
-  flex: 1;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 /* 模板区样式 */
 .template-item {
-  max-width: calc(100% / 3 - 15px);
+    min-width: 0;
 }
 
 .template-textarea {
-  font-family: 'Consolas', 'Monaco', monospace;
-  font-size: 14px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 14px;
 }
 
 /* 变量区样式 */
 .variable-item {
-  max-width: calc(100% / 3 - 15px);
-  overflow-y: auto;
+    min-width: 0;
+    overflow-y: auto;
 }
 
 /* K-V键值对容器 */
 .variable-kv-container {
   display: flex;
   flex-direction: column;
-  gap: 则16px;
+  gap: 16px;
   padding: 8px 0;
   height: 100%;
   overflow-y: auto;
@@ -503,41 +502,48 @@ const copyResult = () => {
 
 /* 结果区样式 */
 .result-item {
-  max-width: calc(100% / 3 - 15px);
+    min-width: 0;
 }
 
 .result-textarea {
-  font-family: 'Consolas', 'Monaco', monospace;
-  font-size: 14px;
-  background-color: #f9fafb;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 14px;
 }
 
 /* Naive UI样式覆盖 */
 :deep(.n-card__header) {
-  padding: 12px 16px;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #e5e7eb;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--divider-color);
 }
 
 :deep(.n-card__body) {
-  padding: 16px;
-  flex: 1;
-  overflow-y: auto;
+    padding: 16px;
+    flex: 1;
+    overflow-y: auto;
 }
 
 :deep(.n-button) {
-  border-radius: 6px;
+    border-radius: 6px;
 }
 
 /* 响应式适配 */
-@media (max-width: 1200px) {
-  .layout-container {
-    flex-direction: column;
-  }
+@media (max-width: 1024px) {
+    .layout-container {
+        flex-direction: column;
+    }
 
-  .layout-item {
-    max-width: 100%;
-    max-height: calc(100% / 3 - 15px);
-  }
+    .layout-item {
+        max-height: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .json-template-tool {
+        padding: 8px;
+    }
+
+    .layout-container {
+        gap: 8px;
+    }
 }
 </style>
